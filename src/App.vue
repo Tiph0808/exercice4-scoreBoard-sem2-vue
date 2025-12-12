@@ -63,47 +63,177 @@ const pointsValueList = reactive([1, 2, 5])
 </script>
 
 <template>
-  <div v-for="user in users" :key="user.id">
-    <div class="player">
-      <p>{{ user.alias }}</p>
-      <p>{{ user.age }}</p>
-      <p>{{ user.level }}</p>
-    </div>
+  <h1>ScoreBoard</h1>
+  <section>
+    <div
+      v-for="user in users"
+      :key="user.id"
+      :class="{
+        borderBottom: user.alias === 'Alfred',
+      }"
+    >
+      <div class="player">
+        <h2>{{ user.alias }}</h2>
+        <p>{{ user.age }}</p>
+        <p>level {{ user.level }}</p>
+      </div>
 
-    <p>
-      {{ user.gender === 'female' ? 'she' : 'he' }} has already {{ user.numberOfWin }}
-      {{ user.numberOfWin > 1 ? 'victories' : 'victory' }}
-    </p>
+      <p class="victories">
+        {{ user.gender === 'female' ? 'She' : 'He' }} has already
+        <span>{{ user.numberOfWin }}</span>
+        {{ user.numberOfWin > 1 ? 'victories' : 'victory' }}
+      </p>
 
-    <div>
-      <p>Actual Score</p>
-      <p>{{ user.actualScore }}</p>
-    </div>
+      <div class="score-counter">
+        <p>Actual Score</p>
+        <div>{{ user.actualScore }}</div>
+      </div>
 
-    <!-- <div>
+      <!-- <div>
       <button @click="addOnePoint(user.alias)">Add 1 point</button>
       <button @click="addTwoPoints(user.alias)">Add 2 points</button>
       <button @click="addFivePoints(user.alias)">Add 5 points</button>
     </div> -->
 
-    <!-- <div>
+      <!-- <div>
       <button @click="addPoints(user.alias, 1)">Add 1 point</button>
       <button @click="addPoints(user.alias, 2)">Add 2 point</button>
       <button @click="addPoints(user.alias, 5)">Add 5 point</button>
     </div> -->
 
-    <div>
-      <button
-        v-for="(number, index) in pointsValueList"
-        :key="index"
-        @click="addPoints(user.alias, number)"
-      >
-        Add {{ number }} {{ number > 1 ? 'points' : 'point' }}
-      </button>
+      <div class="add-points">
+        <button
+          v-for="(number, index) in pointsValueList"
+          :key="index"
+          @click="addPoints(user.alias, number)"
+        >
+          Add {{ number }} {{ number > 1 ? 'points' : 'point' }}
+        </button>
+      </div>
     </div>
+  </section>
+  <div class="reset">
+    <button @click="resetCounters">Reset</button>
   </div>
-
-  <button @click="resetCounters">Reset</button>
 </template>
 
-<style scoped></style>
+<style scoped>
+h1 {
+  font-family: 'Play', sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ff7f4f;
+  text-align: center;
+  margin: 20px 0px 80px 0px;
+}
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Playpen Sans', cursive;
+}
+
+section {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.borderBottom {
+  border-right: 1px solid #ff7f4f;
+}
+
+section > div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+}
+
+.player > p {
+  font-family: 'Playpen Sans', cursive;
+  font-size: 12px;
+}
+
+.victories {
+  font-family: 'Play', sans-serif;
+}
+
+.victories span {
+  color: #ff7f4f;
+  font-weight: bold;
+}
+
+.score-counter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-counter p:first-child {
+  text-align: center;
+  font-family: 'Play', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.score-counter div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ff7f4f;
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+  border-radius: 50%;
+  font-family: 'Play', sans-serif;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.add-points {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.add-points button {
+  color: #ff7f4f;
+  border: 2px solid #ff7f4f;
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.reset {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.reset button {
+  background-color: white;
+  padding: 5px 10px;
+  color: gray;
+  border: 2px solid gray;
+  border-radius: 5px;
+}
+
+.add-points button:hover {
+  color: white;
+  background-color: #ff7f4f;
+  transform: scale(1.2);
+}
+</style>
